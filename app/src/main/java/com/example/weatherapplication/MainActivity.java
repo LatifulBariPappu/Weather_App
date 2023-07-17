@@ -1,10 +1,19 @@
 package com.example.weatherapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.text.DecimalFormat;
 
@@ -13,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button getButton;
     TextView resultTv;
     private final String url="http://api.openweathermap.org/data/2.5/weather";
-    private final String appid="0190db55681131920b2afda3ea6b2899";
+    private final String appid="f6b4bfe5cf2f83c20d943035159df54f";
     DecimalFormat df=new DecimalFormat("#.##");
 
 
@@ -44,6 +53,19 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 tempUrl=url+"?q="+city+"&appid"+appid;
             }
+            StringRequest stringRequest=new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.d("response",response);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(),error.toString().trim(),Toast.LENGTH_SHORT).show();
+                }
+            });
+            RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(stringRequest);
         }
     }
 }
