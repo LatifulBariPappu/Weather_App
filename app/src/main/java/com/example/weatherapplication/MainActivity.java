@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             StringRequest stringRequest=new StringRequest(Request.Method.POST, tempUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    String output="";
                     try {
                         JSONObject jsonResponse=new JSONObject(response);
                         JSONArray jsonArray=jsonResponse.getJSONArray("weather");
@@ -81,6 +82,15 @@ public class MainActivity extends AppCompatActivity {
                         String cityName=jsonResponse.getString("name");
                         resultTv.setTextColor(Color.rgb(68,134,199));
 
+                        output+="Currnet weather of"+cityName+"("+countryName+")"
+                                +"\n Temp: "+df.format(temp)+" °C"
+                                +"\n Feels like: "+df.format(feelslike)+" °C"
+                                +"\n Humadity: "+humidity+" %"
+                                +"\n Description: "+description
+                                +"\n Wind Speed: "+wind+"m/s (meters per second)"
+                                +"\n Cloudiness: "+clouds+" %"
+                                +"\n Pressure: "+pressure+" hpa";
+                        resultTv.setText(output);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
